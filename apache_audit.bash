@@ -240,9 +240,112 @@ grep 'Header set Permissions-Policy "<Directive> <allowlist>"' /etc/apache2/apac
 verify
 
 header "### Section 6 - Operations, Logging, Monitoring, and Maintenance"
-header "6.1 - Ensure the Error Log Filename and Severity Level are Configured Correctly"
-grep 'Header set Permissions-Policy "<Directive> <allowlist>"' /etc/apache2/apache2.conf
-verify
 
+header "6.1 - Ensure the Error Log Filename and Severity Level are Configured Correctly"
+#TODO
+
+header "6.2 - Ensure a Syslog Facility is Configured for Error Logging"
+#TODO
+
+header "6.3 - Ensure the Server Access Log is Configured Correctly"
+#TODO
+
+header "6.4 - Ensure Log Storage and Rotation is Configured Correctly"
+#TODO
+
+header "6.5 - Ensure Applicable Patches are Applied"
+#TODO
+
+header "6.6 - Ensure ModSecurity is Installed and Enabled"
+#TODO
+
+header "6.7 - Ensure the OWASP ModSecurity Core Rule Set is Installed and Enabled"
+#TODO
+
+header "### Section 7 - SSL/TLS Configuration"
+
+header "7.1 - Ensure mod_ssl and/or mod_nss is Installed"
+#TODO
+
+header "7.2 - Ensure a Valid Trusted Certificate is Installed"
+#TODO
+
+header "7.3 - Ensure the Server's Private Key is Protected"
+#TODO
+
+header "7.4 - Ensure the TLSv1.0 and TLSv1.1 Protocols are Disabled"
+#TODO
+
+header "7.5 - Ensure Weak SSL/TLS Ciphers are Disabled"
+#TODO
+
+header "7.6 - Ensure Insecure SSL Renegotiation is Not Enabled"
+#TODO
+
+header "7.7 - Ensure SSL Compression is not Enabled"
+#TODO
+
+header "7.8 - Ensure Medium Strength SSL/TLS Ciphers are Disabled"
+#TODO
+
+header "7.9 - Ensure All Web Content is Accessed via HTTPS"
+#TODO
+
+header "7.10 - Ensure OCSP Stapling is Enabled"
+#TODO
+
+header "7.11 - Ensure HTTP Strict Transport Security is Enabled"
+#TODO
+
+header "7.12 - Ensure Only Cipher Suites that Provide Forward Secrecy are Enabled"
+#TODO
+
+header "### Section 8 - Information Leakage"
+
+header "8.1 - Ensure ServerTokens is Set to 'Prod' or 'ProductOnly'"
+#TODO
+
+header "8.2 - Ensure ServerSignature is Not Enabled"
+#TODO
+
+header "8.3 - Ensure All Default Apache Content is Removed"
+#TODO
+
+header "8.4 - Ensure ETag Response Header Fields Do Not Include Inodes"
+#TODO
+
+header "### Section 9 - Denial of Service Mitigations"
+
+header "9.1 - Ensure the TimeOut is Set to 10 or Less"
+#TODO
+
+header "9.2 - Ensure KeepAlive is Enabled"
+#TODO
+
+header "9.3 - Ensure MaxKeepAliveRequests is Set to a Value of 100 or Greater"
+#TODO
+
+header "9.4 - Ensure KeepAliveTimeout is Set to a Value of 15 or Less"
+#TODO
+
+header "9.5 - Ensure the Timeout Limits for Request Headers is Set to 40 or Less"
+#TODO
+
+header "9.6 - Ensure Timeout Limits for the Request Body is Set to 20 or Less"
+#TODO
+
+header "### Section 10 - Request Limits"
+
+header "10.1 - Ensure the LimitRequestLine Directive is Set to 512 or Less"
+#TODO
+
+header "10.2 - Ensure the LimitRequestFields Directive is Set to 100 or Less"
+#TODO
+
+header "10.3 - Ensure the LimitRequestFieldsize Directive is Set to 1024 or Less"
+#TODO
+
+header "10.4 - Ensure the LimitRequestBody Directive is Set to 102400 or Less"
+#TODO
 
 
