@@ -168,18 +168,18 @@ perl -ne 'print if /^<Directory \/>/i .. /<\/Directory>/i' $APACHE_SERVER_ROOT/a
 verify
 
 header "5.2 - Ensure Options for the Web Root Directory are Restricted"
-perl -ne 'print and exit 0 if /^<Directory \/var\/www\/>/i .. /<\/Directory>/i' $APACHE_SERVER_ROOT/apache2.conf $APACHE_SERVER_ROOT/conf-enabled/*.conf | grep -e -i "Options None|Options Multiviews"
+perl -ne 'print if /^<Directory \/var\/www\/>/i .. /<\/Directory>/i' $APACHE_SERVER_ROOT/apache2.conf $APACHE_SERVER_ROOT/sites-enabled/*.conf | grep -E -i "Options None|Options Multiviews"
 verify
 
 header "5.3 - Ensure Options for Other Directories are Minimised"
-perl -ne 'print if /^<Directory .*>/i .. /<\/Directory>/i' $APACHE_SERVER_ROOT/apache2.conf $APACHE_SERVER_ROOT/conf-enabled/*.conf | (! grep -i "Options Includes")
+perl -ne 'print if /^<Directory .*>/i .. /<\/Directory>/i' $APACHE_SERVER_ROOT/apache2.conf $APACHE_SERVER_ROOT/sites-enabled/*.conf $APACHE_SERVER_ROOT/conf-enabled/*.conf | (! grep -i "Options.*Includes")
 verify
 
 #TODO modify this so that it somehow checks that /var/www/html is not available. any remediation must be permanent (i.e. must not be reversed by updating apache). will updating apache replace 000-default.conf?
 header "5.4 - Ensure Default HTML Content is Removed"
-echo -e "${yellow}Please note that this checks only for the absence of index.html, apache manual configuration, server-status, server-info, and perl-status directives. Other content that may be default in your installed version of the Apache webservice may not be detected.${nc}"
-(! grep -R -i -e "index\.html" -e "manual" -e "server\-status" -e "server\-info" -e "perl\-status" $APACHE_SERVER_ROOT/apache2.conf $APACHE_SERVER_ROOT/conf-enabled/ $APACHE_SERVER_ROOT/mods-enabled/)
-verify
+echo -e "${yellow}Please note that this checks only for the absence of index.html, apache manual configuration, server-status, server-info, and perl-status directives. Other content that may be default in your installed version of the Apache webservice may not be detected like /var/www/html/index.html.${nc}"
+grep -Hn -R -i -e "index\.html" -e "manual" -e "server\-status" -e "server\-info" -e "perl\-status" $APACHE_SERVER_ROOT/apache2.conf $APACHE_SERVER_ROOT/conf-enabled/ $APACHE_SERVER_ROOT/mods-enabled/
+echo -e "${yellow}UNVERIFIED${nc}\n"
 
 header "5.5 - Ensure the Default CGI Content printenv Script is Removed"
 ls $APACHE_CGI_BIN | (! grep "printenv")
@@ -220,9 +220,9 @@ header "5.13 - Ensure Access to Files with Inappropriate File Extensions is Rest
 #TODO
 
 header "5.14 - Ensure IP Address Based Requests are Disallowed"
-grep -F 'RewriteCond %{HTTP_HOST} !^[a-zA-Z0-9\-\.]* [NC]
-RewriteCond %{REQUEST_URI} !^/error [NC]
-RewriteRule ^.(.*) - [L,F]' #TODO verify this is even valid. we need to match valid domain names in the first condition. maybe iterate over a list of provided domains instead?
+# grep -F 'RewriteCond %{HTTP_HOST} !^[a-zA-Z0-9\-\.]* [NC]
+# RewriteCond %{REQUEST_URI} !^/error [NC]
+# RewriteRule ^.(.*) - [L,F]' #TODO verify this is even valid. we need to match valid domain names in the first condition. maybe iterate over a list of provided domains instead?
 
 header "5.15 - Ensure the IP Addresses for Listening for Requests are Specified"
 grep -R -e "Listen \d*" foobar | grep -e "[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+$" | grep -v -e "0\.0\.0\.0" #TODO this only works for ipv4, it needs to also work for ipv6
@@ -242,7 +242,9 @@ verify
 header "### Section 6 - Operations, Logging, Monitoring, and Maintenance"
 
 header "6.1 - Ensure the Error Log Filename and Severity Level are Configured Correctly"
-#TODO
+#TODO check that the log level is one of notice, warn, error, crit, alert, or emerg for all modules except core, for which core is also acceptable. debug should not be set for any modules
+# correct config should resemble "LogLevel notice core:info" or something similar 
+# additionally verify that there is a config resembling "ErrorLog 'logs/error_log'" and possibly analagous ones for the virtual hosts
 
 header "6.2 - Ensure a Syslog Facility is Configured for Error Logging"
 #TODO
@@ -348,4 +350,4 @@ header "10.3 - Ensure the LimitRequestFieldsize Directive is Set to 1024 or Less
 header "10.4 - Ensure the LimitRequestBody Directive is Set to 102400 or Less"
 #TODO
 
-
+exit
