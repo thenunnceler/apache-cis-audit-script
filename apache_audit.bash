@@ -1,4 +1,8 @@
 #!/bin/bash
+# do manual checks and then see how they can be automated
+
+# can do if statements to heck both for audit level and for if a specific check was called
+
 #TODO see if any of the checks should also be checking in virtual host config files for directory directives. probably they should
 
 httpd='sudo apachectl' # TODO this should be swapped out for something to detect os or something. on many installations httpd will be correct
